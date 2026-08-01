@@ -1,0 +1,16 @@
+{
+  "name": "cine-galeria",
+  "version": "2.0.0",
+  "description": "Galeria de peliculas migrada a TypeScript estricto con patron DTO/Mapper/Entity",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "start": "tsc && npx serve . -l 5173"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}

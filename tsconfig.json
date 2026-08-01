@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Salida y módulos: código de navegador con ESM real */
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["DOM", "ES2020"],
+    "rootDir": "src",
+    "outDir": "dist",
+
+    /* Requisito 1 del taller: directivas de restricción obligatorias */
+    "strict": true,
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+
+    /* Higiene adicional recomendada */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "isolatedModules": true
+  },
+  "include": ["src/**/*.ts"]
+}
