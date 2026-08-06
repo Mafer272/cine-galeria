@@ -1,43 +1,46 @@
 // src/favorites.ts
-// Favorites persisted to localStorage, typed against the Movie entity.
+// Favorites persisted to localStorage, now backed by the generic
+// DataCatalogManager<Movie> instead of a hand-rolled Map — concrete
+// proof the repository is reused, not just declared.
 
 import type { Movie } from "./entities/movie.js";
+import { DataCatalogManager } from "./repositories/data-catalog-manager.js";
 
 const STORAGE_KEY = "galleryFavorites";
-const favoritesMap = new Map<number, Movie>();
+const favoritesCatalog = new DataCatalogManager<Movie>();
 
 export function loadSavedFavorites(): void {
   const data = localStorage.getItem(STORAGE_KEY);
   if (!data) return;
   try {
     const list = JSON.parse(data) as Movie[];
-    list.forEach((movie) => favoritesMap.set(movie.id, movie));
+    favoritesCatalog.addMany(list);
   } catch (e) {
     console.error("Could not read saved favorites", e);
   }
 }
 
 function saveFavoritesToStorage(): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(favoritesMap.values())));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favoritesCatalog.getAll()));
 }
 
 export function isFavorite(id: number): boolean {
-  return favoritesMap.has(id);
+  return favoritesCatalog.has(id);
 }
 
 export function toggleFavorite(movie: Movie): void {
-  if (favoritesMap.has(movie.id)) {
-    favoritesMap.delete(movie.id);
+  if (favoritesCatalog.has(movie.id)) {
+    favoritesCatalog.remove(movie.id);
   } else {
-    favoritesMap.set(movie.id, movie);
+    favoritesCatalog.add(movie);
   }
   saveFavoritesToStorage();
 }
 
 export function getFavorites(): Movie[] {
-  return Array.from(favoritesMap.values());
+  return favoritesCatalog.getAll();
 }
 
 export function getFavoritesCount(): number {
-  return favoritesMap.size;
+  return favoritesCatalog.count();
 }

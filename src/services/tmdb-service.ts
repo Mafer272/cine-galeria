@@ -31,11 +31,7 @@ export async function getGenres(language: Language): Promise<Record<number, stri
   return genresMap;
 }
 
-/**
- * Fetches the movie listing for a category/genre.
- * This is the "Catalog" service: the critical one that `genreCache.ts`
- * wraps to avoid unnecessary network requests.
- */
+
 export async function getMovies(categoryId: string | number, language: Language): Promise<MovieDTO[]> {
   let url: string;
   if (categoryId === "all") {
